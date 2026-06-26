@@ -1,0 +1,49 @@
+# Hookbin — Test semua HTTP method
+# Ganti URL sesuai bucket ID yang tampil di frontend
+
+BASE=http://10.10.10.242:3005/8zcmsdje
+
+# POST — JSON body
+curl -X POST $BASE \
+  -H "Content-Type: application/json" \
+  -d '{"hello":"Juhdin"}'
+
+# GET — query search params
+curl -X GET "$BASE?page=1&limit=10&search=juhdin&sort=asc"
+
+# PUT
+curl -X PUT $BASE \
+  -H "Content-Type: application/json" \
+  -d '{"id":1,"name":"Juhdin","updated":true}'
+
+# PATCH
+curl -X PATCH $BASE \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Juhdin Patched"}'
+
+# DELETE
+curl -X DELETE $BASE \
+  -H "Content-Type: application/json" \
+  -d '{"id":1}'
+
+# POST — file upload (multipart/form-data)
+curl -X POST "$BASE?upload=1" \
+  -F "file=@client/src/assets/vite.svg" \
+  -F "username=juhdin" \
+  -F "description=test upload file"
+
+curl -X POST "http://10.10.10.242:3005/8zcmsdje" \
+  -F "avatar=@client/src/assets/hero.png" \
+  -F "user_id=42" \
+  -F "caption=Profile photo" \
+  -F "is_public=true"
+
+# POST — cookies
+curl -X POST "$BASE?with_cookie=1" \
+  -H "Content-Type: application/json" \
+  -H "Cookie: session=abc123; token=xyz789; user_id=42" \
+  -d '{"action":"cookie_test"}'
+
+# GET — query params + cookies sekaligus
+curl -X GET "$BASE?page=2&filter=active" \
+  -H "Cookie: session=abc123; role=admin"
